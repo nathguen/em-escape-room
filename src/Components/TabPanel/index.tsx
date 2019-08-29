@@ -6,6 +6,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import HomeTab from '../HomeTab';
+import PianoTab from '../PianoTab';
+import EmotionalTab from '../EmotionalTab';
+import CardsTab from '../CardsTab';
+
 
 interface TabPanelProps {
   children: any;
@@ -79,16 +83,16 @@ export default function ScrollableTabsButtonAuto() {
         <HomeTab />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <PianoTab />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <EmotionalTab />
       </TabPanel>
       <TabPanel value={value} index={3}>
         Item Four
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Item Five
+        <CardsTab />
       </TabPanel>
       <TabPanel value={value} index={5}>
         Item Six
