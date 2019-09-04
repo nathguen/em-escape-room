@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem, Input, InputLabel, FormControl, Select } from '@material-ui/core';
+import { MenuItem, Input, InputLabel, FormControl, Select, Button } from '@material-ui/core';
 
 const options = [
     '1',
@@ -155,6 +155,10 @@ export default function CardsTab(){
                     ))}
                 </Select>
             </FormControl>
+
+            <Button variant="contained" size='large' color="secondary" >
+                SUBMIT
+            </Button>
         </div>
     );
 

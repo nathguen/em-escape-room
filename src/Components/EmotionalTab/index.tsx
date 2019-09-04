@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, MenuItem, Select, Input, } from '@material-ui/core';
+import { FormControl, MenuItem, Select, Input, Button, } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 
 
@@ -183,6 +183,10 @@ export default function EmotionalTab() {
                     ))}
                 </Select>
             </FormControl>
+
+            <Button variant="contained" size='large' color="secondary" >
+                SUBMIT
+            </Button>
         </div>
     );
 

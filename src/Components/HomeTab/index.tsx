@@ -75,12 +75,17 @@ export default function HomeTab() {
         )}
         {state.checkedB && (
           <div>
-            <p>Be nice to Laptop</p>
+            <p>This laptop is not to be used to look up information on the internet.
+Stay on the “Escape the Relief Society Room” web pages only.
+</p>
           </div>
         )}
         {state.checkedC && (
           <div>
-            <p>Can't leave till finished!</p>
+            <p>Please be aware of labels! There are many boxes in the room and for most of them a task needs to be completed before you can open the box.
+There are many things posted around the room using pushpins. Anything that has been put up with white or black pushpins, please do not remove them they need to stay put. Any other color is free game and you can move them around or remove them altogether as you see fit. 
+You can use the clipboards, pencils, and scratch paper to take notes.
+</p>
           </div>
         )}
       </div>

@@ -10,35 +10,57 @@ interface State {
 
 export default function PianoTab() {
 
-    const [values1, setValues1] = React.useState<State>({ input: '' })
-    const [values2, setValues2] = React.useState<State>({ input: '' })
-    const [values3, setValues3] = React.useState<State>({ input: '' })
-    const [values4, setValues4] = React.useState<State>({ input: '' })
-    const [values5, setValues5] = React.useState<State>({ input: '' })
-    const [values6, setValues6] = React.useState<State>({ input: '' })
-    const [values7, setValues7] = React.useState<State>({ input: '' })
+    const [value1, setValue1] = React.useState<State>({ input: '' })
+    const [value2, setValue2] = React.useState<State>({ input: '' })
+    const [value3, setValue3] = React.useState<State>({ input: '' })
+    const [value4, setValue4] = React.useState<State>({ input: '' })
+    const [value5, setValue5] = React.useState<State>({ input: '' })
+    const [value6, setValue6] = React.useState<State>({ input: '' })
+    const [value7, setValue7] = React.useState<State>({ input: '' })
+
+    const [correct, showCorrect] = React.useState(false)
+    const [again, tryAgain] = React.useState(false)
+    const [none, noneCorrect] = React.useState(false)
+
 
     const handleChange1 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues1({ ...values1, [input]: event.target.value });
+        setValue1({ ...value1, [input]: event.target.value.toUpperCase() });
     };
     const handleChange2 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues2({ ...values2, [input]: event.target.value });
+        setValue2({ ...value2, [input]: event.target.value.toUpperCase() });
     };
     const handleChange3 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues3({ ...values3, [input]: event.target.value });
+        setValue3({ ...value3, [input]: event.target.value.toUpperCase() });
     };
     const handleChange4 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues4({ ...values4, [input]: event.target.value });
+        setValue4({ ...value4, [input]: event.target.value.toUpperCase() });
     };
     const handleChange5 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues5({ ...values5, [input]: event.target.value });
+        setValue5({ ...value5, [input]: event.target.value.toUpperCase() });
     };
     const handleChange6 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues6({ ...values6, [input]: event.target.value });
+        setValue6({ ...value6, [input]: event.target.value.toUpperCase() });
     };
     const handleChange7 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues7({ ...values7, [input]: event.target.value });
+        setValue7({ ...value7, [input]: event.target.value.toUpperCase() });
     };
+
+    const checkAnswers = () => {
+        if(value1.input === 'G' || value2.input === 'A' || value3.input === 'E' || value4.input === 'D' || value5.input === 'F' || value6.input === 'B' || value7.input === 'C'){
+            tryAgain(true)
+            noneCorrect(false)
+        }
+        if(value1.input === 'G' && value2.input === 'A' && value3.input === 'E' && value4.input === 'D' && value5.input === 'F' && value6.input === 'B' && value7.input === 'C'){
+            tryAgain(false)
+            noneCorrect(false)
+            showCorrect(true)
+        }
+        else{
+            noneCorrect(true)
+        }
+
+
+    }
 
     return (
         <div>
@@ -46,7 +68,7 @@ export default function PianoTab() {
                 id="filled-name"
                 label="#1"
                 placeholder="Type here"
-                value={values1.input}
+                value={value1.input}
                 onChange={handleChange1('input')}
                 margin="normal"
                 variant="filled"
@@ -56,7 +78,7 @@ export default function PianoTab() {
                 id="filled-name"
                 label="#2"
                 placeholder="Type here"
-                value={values2.input}
+                value={value2.input}
                 onChange={handleChange2('input')}
                 margin="normal"
                 variant="filled"
@@ -66,7 +88,7 @@ export default function PianoTab() {
                 id="filled-name"
                 label="#3"
                 placeholder="Type here"
-                value={values3.input}
+                value={value3.input}
                 onChange={handleChange3('input')}
                 margin="normal"
                 variant="filled"
@@ -76,7 +98,7 @@ export default function PianoTab() {
                 id="filled-name"
                 label="#4"
                 placeholder="Type here"
-                value={values4.input}
+                value={value4.input}
                 onChange={handleChange4('input')}
                 margin="normal"
                 variant="filled"
@@ -86,7 +108,7 @@ export default function PianoTab() {
                 id="filled-name"
                 label="#5"
                 placeholder="Type here"
-                value={values5.input}
+                value={value5.input}
                 onChange={handleChange5('input')}
                 margin="normal"
                 variant="filled"
@@ -96,7 +118,7 @@ export default function PianoTab() {
                 id="filled-name"
                 label="#6"
                 placeholder="Type here"
-                value={values6.input}
+                value={value6.input}
                 onChange={handleChange6('input')}
                 margin="normal"
                 variant="filled"
@@ -106,15 +128,33 @@ export default function PianoTab() {
                 id="filled-name"
                 label="#7"
                 placeholder="Type here"
-                value={values7.input}
+                value={value7.input}
                 onChange={handleChange7('input')}
                 margin="normal"
                 variant="filled"
             />
-
-            <Button variant="contained" size='large' color="secondary" >
+            
+            {!correct && (
+            <Button onClick={checkAnswers}  variant="contained" size='large' color="secondary" >
                 SUBMIT
             </Button>
+            )}
+
+            {again && (
+                <p>Some of your answers were right! Just gotta fix a few.</p>
+            )}
+
+            {none && (
+                <p>Sorry, none of those are right. Please try again</p>
+            )}
+            
+            {correct && (
+                <div>
+                    
+                    <h1>CORRECT!</h1>
+                    <p>You may now open the _____________ to receive one of the words for the final clue.</p>
+                </div>
+            )}
         </div>
     );
 }
