@@ -192,7 +192,6 @@ export default function PianoTab() {
             
             {correct && (
                 <div>
-                    
                     <h1>CORRECT!</h1>
                     <p>You may now open the _____________ to receive one of the words for the final clue.</p>
                 </div>

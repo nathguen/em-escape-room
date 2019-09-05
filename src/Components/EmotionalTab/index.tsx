@@ -48,12 +48,12 @@ const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
     PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
     },
-  };
+};
 
 
 export default function EmotionalTab() {
@@ -61,6 +61,13 @@ export default function EmotionalTab() {
     const [optionRed, setOptionRed] = React.useState<string[]>(['red']);
     const [optionBlue, setOptionBlue] = React.useState<string[]>(['blue']);
     const [optionGreen, setOptionGreen] = React.useState<string[]>(['green']);
+
+    const [correct, showCorrect] = React.useState(false)
+    const [again, tryAgain] = React.useState(false)
+    const [none, noneCorrect] = React.useState(false)
+
+    const correctAnswers = '12AB';
+    var allInput = optionYellow.toString() + optionRed.toString() + optionBlue.toString() + optionGreen.toString();
 
 
 
@@ -77,11 +84,38 @@ export default function EmotionalTab() {
         setOptionGreen(event.target.value as string[]);
     }
 
+    const checkAnswers = () => {
+        console.log(allInput);
+        var splitAnswers = correctAnswers.split('');
+        var i = 0;
+        var countCorrect = 0;
+        splitAnswers.forEach(e => {
+            if (e === allInput[i]) {
+                countCorrect++;
+
+            }
+            i++;
+            if (countCorrect > 0 && countCorrect < 4) {
+                tryAgain(true)
+                noneCorrect(false)
+            }
+
+        })
+        if (correctAnswers === allInput) {
+            tryAgain(false)
+            noneCorrect(false)
+            showCorrect(true)
+        }
+        if (countCorrect === 0) {
+            noneCorrect(true)
+        }
+    }
+
 
     return (
         <div>
             <FormControl>
-            <InputLabel htmlFor="select-multiple">Yellow</InputLabel>
+                <InputLabel htmlFor="select-multiple">Yellow</InputLabel>
                 <Select
                     displayEmpty
                     value={optionYellow}
@@ -107,7 +141,7 @@ export default function EmotionalTab() {
             </FormControl>
 
             <FormControl>
-            <InputLabel htmlFor="select-multiple">Red</InputLabel>
+                <InputLabel htmlFor="select-multiple">Red</InputLabel>
                 <Select
                     displayEmpty
                     value={optionRed}
@@ -133,7 +167,7 @@ export default function EmotionalTab() {
             </FormControl>
 
             <FormControl>
-            <InputLabel htmlFor="select-multiple">Blue</InputLabel>
+                <InputLabel htmlFor="select-multiple">Blue</InputLabel>
                 <Select
                     displayEmpty
                     value={optionBlue}
@@ -159,7 +193,7 @@ export default function EmotionalTab() {
             </FormControl>
 
             <FormControl>
-            <InputLabel htmlFor="select-multiple">Green</InputLabel>
+                <InputLabel htmlFor="select-multiple">Green</InputLabel>
                 <Select
                     displayEmpty
                     value={optionGreen}
@@ -184,9 +218,26 @@ export default function EmotionalTab() {
                 </Select>
             </FormControl>
 
-            <Button variant="contained" size='large' color="secondary" >
+            {!correct && (
+            <Button onClick={checkAnswers} variant="contained" size='large' color="secondary" >
                 SUBMIT
             </Button>
+            )}
+
+            {again && (
+                <p>Some of your answers were right! Just gotta fix a few.</p>
+            )}
+
+            {none && (
+                <p>Sorry, none of those are right. Please try again</p>
+            )}
+
+            {correct && (
+                <div>
+                    <h1>CORRECT!</h1>
+                    <p>You may now open the _____________ to receive one of the words for the final clue.</p>
+                </div>
+            )}
         </div>
     );
 
