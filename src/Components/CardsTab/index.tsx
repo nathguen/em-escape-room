@@ -35,6 +35,13 @@ export default function CardsTab(){
     const [option3, setOption3] = React.useState<string[]>(['Select']);
     const [option4, setOption4] = React.useState<string[]>(['Select']);
 
+    const [correct, showCorrect] = React.useState(false)
+    const [again, tryAgain] = React.useState(false)
+    const [none, noneCorrect] = React.useState(false)
+
+    const correctAnswers = '110212';
+    var allInput = option1.toString() + option2.toString() + option3.toString() + option4.toString();
+
 
 
     function handleChange1(event: React.ChangeEvent<{ value: unknown }>) {
@@ -48,6 +55,33 @@ export default function CardsTab(){
     }
     function handleChange4(event: React.ChangeEvent<{ value: unknown }>) {
         setOption4(event.target.value as string[]);
+    }
+
+    const checkAnswers = () => {
+        console.log(allInput);
+        var splitAnswers = correctAnswers.split('');
+        var i = 0;
+        var countCorrect = 0;
+        splitAnswers.forEach(e => {
+            if (e === allInput[i]) {
+                countCorrect++;
+
+            }
+            i++;
+            if (countCorrect > 0 && countCorrect < 4) {
+                tryAgain(true)
+                noneCorrect(false)
+            }
+
+        })
+        if (correctAnswers === allInput) {
+            tryAgain(false)
+            noneCorrect(false)
+            showCorrect(true)
+        }
+        if (countCorrect === 0) {
+            noneCorrect(true)
+        }
     }
 
     return (
@@ -156,9 +190,26 @@ export default function CardsTab(){
                 </Select>
             </FormControl>
 
-            <Button variant="contained" size='large' color="secondary" >
+            {!correct && (
+            <Button onClick={checkAnswers} variant="contained" size='large' color="secondary" >
                 SUBMIT
             </Button>
+            )}
+
+            {again && (
+                <p>Some of your answers were right! Just gotta fix a few.</p>
+            )}
+
+            {none && (
+                <p>Sorry, none of those are right. Please try again</p>
+            )}
+
+            {correct && (
+                <div>
+                    <h1>CORRECT!</h1>
+                    <p>You may now open the _____________ to receive one of the words for the final clue.</p>
+                </div>
+            )}
         </div>
     );
 
