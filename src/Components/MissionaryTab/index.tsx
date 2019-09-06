@@ -3,18 +3,6 @@ import { Button } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
-
 export default function MissionaryTab() {
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(
         new Date('2021-01-01T21:11:54'),
@@ -26,39 +14,21 @@ export default function MissionaryTab() {
     const [correct, showCorrect] = React.useState(false)
     const [none, noneCorrect] = React.useState(false)
 
-    const correctAnswers = "2021-01-12";
-    var input = 0;
+    const correctAnswers = new Date('2021-01-12T21:11:00');
+    if(selectedDate !== null) {
+        var dateInput = selectedDate;
+    };
 
 
-
-
-
-    // const checkAnswers = () => {
-    //     console.log(allInput);
-    //     var splitAnswers = correctAnswers.split('');
-    //     var i = 0;
-    //     var countCorrect = 0;
-    //     splitAnswers.forEach(e => {
-    //         if (e === allInput[i]) {
-    //             countCorrect++;
-
-    //         }
-    //         i++;
-    //         if (countCorrect > 0 && countCorrect < 4) {
-    //             tryAgain(true)
-    //             noneCorrect(false)
-    //         }
-
-    //     })
-    //     if (correctAnswers === allInput) {
-    //         tryAgain(false)
-    //         noneCorrect(false)
-    //         showCorrect(true)
-    //     }
-    //     if (countCorrect === 0) {
-    //         noneCorrect(true)
-    //     }
-    // }
+    const checkAnswers = () => {
+        if(correctAnswers !== dateInput) {
+            noneCorrect(true)
+        }
+        if (correctAnswers.toString() === dateInput.toString()) {
+            noneCorrect(false)
+            showCorrect(true)
+        }
+    }
 
     return (
         <div>
@@ -71,17 +41,16 @@ export default function MissionaryTab() {
                     minDate={new Date()}
                     format="MM/dd/yyyy"
                 />
-
             </MuiPickersUtilsProvider>
 
             {!correct && (
-                <Button variant="contained" size='large' color="secondary" >
+                <Button onClick={checkAnswers} variant="contained" size='large' color="secondary" >
                     SUBMIT
             </Button>
             )}
 
             {none && (
-                <p>Sorry, none of those are right. Please try again</p>
+                <p>That's not right. Please try again</p>
             )}
 
             {correct && (
