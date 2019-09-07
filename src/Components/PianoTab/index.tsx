@@ -83,7 +83,6 @@ export default function PianoTab() {
     };
 
     const checkAnswers = () => {
-        console.log(allInput);
         var splitAnswers = correctAnswers.split('');
         var i = 0;
         var countCorrect = 0;
@@ -122,8 +121,7 @@ export default function PianoTab() {
                 onChange={handleChange1('input')}
                 margin="normal"
                 variant="filled"
-
-                InputProps={value1.input === correctAnswers[0] && again === true ? {
+                InputProps={value1.input === correctAnswers[0] && again === true || correct === true ? {
                     className: classes.color
                 } : { className: classes.color2 }}
                 disabled={value1.input === correctAnswers[0] && again === true || correct === true ? true : false}
@@ -138,7 +136,7 @@ export default function PianoTab() {
                 onChange={handleChange2('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value2.input === correctAnswers[1] && again === true ? {
+                InputProps={value2.input === correctAnswers[1] && again === true || correct === true ? {
                     className: classes.color
                 } : { className: classes.color2 }}
             />
@@ -152,7 +150,7 @@ export default function PianoTab() {
                 onChange={handleChange3('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value3.input === correctAnswers[2] && again === true ? {
+                InputProps={value3.input === correctAnswers[2] && again === true || correct === true ? {
                     className: classes.color
                 } : { className: classes.color2 }}
             />
@@ -166,7 +164,7 @@ export default function PianoTab() {
                 onChange={handleChange4('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value4.input === correctAnswers[3] && again === true ? {
+                InputProps={value4.input === correctAnswers[3] && again === true || correct === true ? {
                     className: classes.color
                 } : { className: classes.color2 }}
             />
@@ -180,7 +178,7 @@ export default function PianoTab() {
                 onChange={handleChange5('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value5.input === correctAnswers[4] && again === true ? {
+                InputProps={value5.input === correctAnswers[4] && again === true || correct === true ? {
                     className: classes.color
                 } : { className: classes.color2 }}
             />
@@ -194,7 +192,7 @@ export default function PianoTab() {
                 onChange={handleChange6('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value6.input === correctAnswers[5] && again === true ? {
+                InputProps={value6.input === correctAnswers[5] && again === true || correct === true ? {
                     className: classes.color
                 } : { className: classes.color2 }}
             />
@@ -208,7 +206,7 @@ export default function PianoTab() {
                 onChange={handleChange7('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value7.input === correctAnswers[6] && again === true ? {
+                InputProps={value7.input === correctAnswers[6] && again === true || correct === true ? {
                     className: classes.color
                 } : { className: classes.color2 }}
             />
