@@ -1,6 +1,8 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Theme, makeStyles, createStyles } from '@material-ui/core';
+// import { createMuiTheme } from '@material-ui/core/styles'
+
 
 
 interface State {
@@ -8,22 +10,34 @@ interface State {
 }
 
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
-      color: 'red',
-    },
-    color: {
-        color: 'red',
-    }
-  }),
+    createStyles({
+        container: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        textField: {
+            marginLeft: theme.spacing(1),
+            marginRight: theme.spacing(1),
+            width: 200,
+        },
+        color: {
+            color: 'green',
+        },
+        color2: {
+            color: 'black'
+        },
+        color3: {
+            backgroundColor: 'green'
+        }
+    }),
 );
+// const theme = createMuiTheme({
+//     palette: {
+//       action: {
+//         disabledBackground: 'green'
+//       }
+//     }
+//   });
 
 
 export default function PianoTab() {
@@ -74,23 +88,23 @@ export default function PianoTab() {
         var i = 0;
         var countCorrect = 0;
         splitAnswers.forEach(e => {
-            if(e === allInput[i]){
+            if (e === allInput[i]) {
                 countCorrect++;
 
             }
             i++;
-            if(countCorrect > 0 && countCorrect < 7){
+            if (countCorrect > 0 && countCorrect < 7) {
                 tryAgain(true)
                 noneCorrect(false)
             }
 
         })
-        if(correctAnswers === allInput){
+        if (correctAnswers === allInput) {
             tryAgain(false)
             noneCorrect(false)
             showCorrect(true)
         }
-        if(countCorrect === 0)  {
+        if (countCorrect === 0) {
             noneCorrect(true)
         }
 
@@ -100,7 +114,7 @@ export default function PianoTab() {
     return (
         <div className={classes.container} >
             <TextField
-                id="filled-name"
+                id="#1"
                 label="#1"
                 placeholder="Type here"
                 className={classes.textField}
@@ -108,6 +122,11 @@ export default function PianoTab() {
                 onChange={handleChange1('input')}
                 margin="normal"
                 variant="filled"
+
+                InputProps={value1.input === correctAnswers[0] && again === true ? {
+                    className: classes.color
+                } : { className: classes.color2 }}
+                disabled={value1.input === correctAnswers[0] && again === true || correct === true ? true : false}
             />
 
             <TextField
@@ -119,6 +138,9 @@ export default function PianoTab() {
                 onChange={handleChange2('input')}
                 margin="normal"
                 variant="filled"
+                InputProps={value2.input === correctAnswers[1] && again === true ? {
+                    className: classes.color
+                } : { className: classes.color2 }}
             />
 
             <TextField
@@ -130,6 +152,9 @@ export default function PianoTab() {
                 onChange={handleChange3('input')}
                 margin="normal"
                 variant="filled"
+                InputProps={value3.input === correctAnswers[2] && again === true ? {
+                    className: classes.color
+                } : { className: classes.color2 }}
             />
 
             <TextField
@@ -141,6 +166,9 @@ export default function PianoTab() {
                 onChange={handleChange4('input')}
                 margin="normal"
                 variant="filled"
+                InputProps={value4.input === correctAnswers[3] && again === true ? {
+                    className: classes.color
+                } : { className: classes.color2 }}
             />
 
             <TextField
@@ -152,6 +180,9 @@ export default function PianoTab() {
                 onChange={handleChange5('input')}
                 margin="normal"
                 variant="filled"
+                InputProps={value5.input === correctAnswers[4] && again === true ? {
+                    className: classes.color
+                } : { className: classes.color2 }}
             />
 
             <TextField
@@ -163,6 +194,9 @@ export default function PianoTab() {
                 onChange={handleChange6('input')}
                 margin="normal"
                 variant="filled"
+                InputProps={value6.input === correctAnswers[5] && again === true ? {
+                    className: classes.color
+                } : { className: classes.color2 }}
             />
 
             <TextField
@@ -174,11 +208,14 @@ export default function PianoTab() {
                 onChange={handleChange7('input')}
                 margin="normal"
                 variant="filled"
+                InputProps={value7.input === correctAnswers[6] && again === true ? {
+                    className: classes.color
+                } : { className: classes.color2 }}
             />
-            
+
             {!correct && (
-            <Button onClick={checkAnswers}  variant="contained" size='large' color="secondary" >
-                SUBMIT
+                <Button onClick={checkAnswers} variant="contained" size='large' color="secondary" >
+                    SUBMIT
             </Button>
             )}
 
@@ -189,7 +226,7 @@ export default function PianoTab() {
             {none && (
                 <p>Sorry, none of those are right. Please try again</p>
             )}
-            
+
             {correct && (
                 <div>
                     <h1>CORRECT!</h1>
