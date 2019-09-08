@@ -1,9 +1,31 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button, createStyles, Theme } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        color: {
+            color: 'green',
+        },
+        color2: {
+            color: 'black'
+        },
+    }),
+);
+
+// function disablePrevDates(startDate) {
+//     const startSeconds = Date.parse(startDate);
+//     return (date) => {
+//       return Date.parse(date) < startSeconds;
+//     }
+//   }
 
 export default function MissionaryTab() {
+
+    const classes = useStyles();
+
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(
         new Date('2021-01-01T21:11:54'),
     );
@@ -40,8 +62,16 @@ export default function MissionaryTab() {
                     onChange={handleDateChange}
                     minDate={new Date()}
                     format="MM/dd/yyyy"
-                    disabled= {correct === true ? true : false}
-                />
+                    // shouldDisableDate={disablePrevDates(startDate)}
+                    InputProps={correct === true ? 
+                        {className: classes.color} : { className: classes.color2 }
+                    }
+                    inputProps={correct === true ? 
+                        {readOnly: true} : {readOnly: false}
+                    }
+
+                    />
+                {/* {disabled= {correct === true ? true : false}} */}
             </MuiPickersUtilsProvider>
 
             {!correct && (
