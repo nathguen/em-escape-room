@@ -8,32 +8,25 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    button: {
-      margin: theme.spacing(1),
-    },
-    input: {
-      display: 'none',
-    },
     heading: {
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
     },
+    colorb: {
+      color: 'blue'
+    },
+    colorp: {
+      color: 'purple'
+    },
+    colorg: {
+      color: 'green'
+    }
   }),
 );
 
 
 export default function HomeTab() {
-  const [state, setState2] = React.useState({
-    checkedA: false,
-    checkedB: false,
-    checkedC: false
-  });
   const classes = useStyles();
-
-  
-
-
-
 
   return (
 
@@ -42,11 +35,12 @@ export default function HomeTab() {
         Welcome to the Relief Society Room! Unfortunately, you cannot leave here until some tasks have been completed. Of course, I’m not actually going to lock you in and you can come and go as you please, but try to use a little imagination and at least pretend like you’re stuck here.
       </p>
       <div className="center">
-        <ExpansionPanel>
+        <ExpansionPanel >
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            className={classes.colorb}
           >
             <Typography className={classes.heading}>Laptop Use</Typography>
           </ExpansionPanelSummary>
@@ -56,11 +50,12 @@ export default function HomeTab() {
           </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <ExpansionPanel>
+        <ExpansionPanel >
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            className={classes.colorp}
           >
             <Typography className={classes.heading}>Laptop Rules</Typography>
           </ExpansionPanelSummary>
@@ -71,11 +66,12 @@ export default function HomeTab() {
             </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <ExpansionPanel>
+        <ExpansionPanel >
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            className={classes.colorg}
           >
             <Typography className={classes.heading}>Room Rules</Typography>
           </ExpansionPanelSummary>
