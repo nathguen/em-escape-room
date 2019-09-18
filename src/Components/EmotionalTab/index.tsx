@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, MenuItem, Select, Input, Button, } from '@material-ui/core';
+import { FormControl, MenuItem, Select, Input, Button, createStyles, makeStyles, Theme, } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 
 
@@ -43,6 +43,16 @@ const options = [
     'Z',
 ];
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        color: {
+            color: 'green',
+        },
+        color2: {
+            color: 'black'
+        }
+    }),
+);
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -57,6 +67,9 @@ const MenuProps = {
 
 
 export default function EmotionalTab() {
+
+    const classes = useStyles();
+
     const [optionYellow, setOptionYellow] = React.useState<string[]>(['yellow']);
     const [optionRed, setOptionRed] = React.useState<string[]>(['red']);
     const [optionBlue, setOptionBlue] = React.useState<string[]>(['blue']);
@@ -66,7 +79,7 @@ export default function EmotionalTab() {
     const [again, tryAgain] = React.useState(false)
     const [none, noneCorrect] = React.useState(false)
 
-    const correctAnswers = '12AB';
+    const correctAnswers = '7E4F';
     var allInput = optionYellow.toString() + optionRed.toString() + optionBlue.toString() + optionGreen.toString();
 
 
@@ -85,7 +98,6 @@ export default function EmotionalTab() {
     }
 
     const checkAnswers = () => {
-        console.log(allInput);
         var splitAnswers = correctAnswers.split('');
         var i = 0;
         var countCorrect = 0;
@@ -120,7 +132,6 @@ export default function EmotionalTab() {
                     displayEmpty
                     value={optionYellow}
                     onChange={handleChangeYellow}
-                    input={<Input id="select-multiple-placeholder" />}
                     renderValue={selected => {
                         if ((selected as string).length === 0) {
                             return <em>______</em>;
@@ -128,6 +139,15 @@ export default function EmotionalTab() {
                         return (selected as string);
                     }}
                     MenuProps={MenuProps}
+                    // input={putInput}
+
+                    // SelectProps={
+                    //     optionYellow.input === correctAnswers[0] && again === true || correct === true ?
+                    //         { className: classes.color } : { className: classes.color2 }
+                    // }
+                    // inputProps={optionYellow.input === correctAnswers[0] && again === true || correct === true ?
+                    //     { readOnly: true } : { readOnly: false }
+                    // }
                 >
                     <MenuItem disabled value="">
                         <em>______</em>

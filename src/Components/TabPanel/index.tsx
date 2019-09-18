@@ -10,6 +10,7 @@ import PianoTab from '../PianoTab';
 import EmotionalTab from '../EmotionalTab';
 import CardsTab from '../CardsTab';
 import MissionaryTab from '../MissionaryTab';
+import UchtdorfTab from '../UchtdorfTab';
 
 
 interface TabPanelProps {
@@ -90,7 +91,7 @@ export default function ScrollableTabsButtonAuto() {
         <EmotionalTab />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+        <UchtdorfTab />
       </TabPanel>
       <TabPanel value={value} index={4}>
         <CardsTab />
