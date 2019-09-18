@@ -107,17 +107,17 @@ export default function PianoTab() {
             noneCorrect(true)
         }
     }
-
-    // var i = 0;
-    // const inputProps = {
-    //     splitAnswers.forEach(e => {
-    //         if(value1.input === correctAnswers[0] && again === true || correct === true) {
-    //             {className: classes.color}
-    //         }
-    //         i++;
-    //     }),
-    //     readOnly: true
-    //   };
+    const isValueCorrect = (num: number) => {
+        var i = 0;
+        const correctArray = splitAnswers.map(e => {
+            if ((allInput[i] === correctAnswers[i] && again === true) || correct === true) {
+                i++;
+                return true;
+            }
+            i++;
+        })
+        return correctArray[num];
+    }
 
     return (
         <div className={classes.container} >
@@ -130,13 +130,11 @@ export default function PianoTab() {
                 onChange={handleChange1('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={
-                    value1.input === correctAnswers[0] && again === true || correct === true ?
-                        { className: classes.color } : { className: classes.color2 }
-                }
-                inputProps={value1.input === correctAnswers[0] && again === true || correct === true ?
-                    { readOnly: true } : { readOnly: false }
-                }
+                inputProps={{
+                    className: isValueCorrect(0) ? classes.color : classes.color2,
+                    readOnly: isValueCorrect(0),
+                    maxLength: 1
+                }}
             />
 
             <TextField
@@ -148,12 +146,11 @@ export default function PianoTab() {
                 onChange={handleChange2('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value2.input === correctAnswers[1] && again === true || correct === true ?
-                    { className: classes.color } : { className: classes.color2 }
-                }
-                inputProps={value2.input === correctAnswers[1] && again === true || correct === true ?
-                    { readOnly: true } : { readOnly: false }
-                }
+                inputProps={{
+                    className: isValueCorrect(1) ? classes.color : classes.color2,
+                    readOnly: isValueCorrect(1),
+                    maxLength: 1
+                }}
             />
 
             <TextField
@@ -165,12 +162,11 @@ export default function PianoTab() {
                 onChange={handleChange3('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value3.input === correctAnswers[2] && again === true || correct === true ?
-                    { className: classes.color } : { className: classes.color2 }
-                }
-                inputProps={value3.input === correctAnswers[2] && again === true || correct === true ? 
-                    {readOnly: true} : {readOnly: false}
-                }
+                inputProps={{
+                    className: isValueCorrect(2) ? classes.color : classes.color2,
+                    readOnly: isValueCorrect(2),
+                    maxLength: 1
+                }}
             />
 
             <TextField
@@ -182,12 +178,11 @@ export default function PianoTab() {
                 onChange={handleChange4('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value4.input === correctAnswers[3] && again === true || correct === true ? 
-                    {className: classes.color} : { className: classes.color2 }
-                }
-                inputProps={value4.input === correctAnswers[3] && again === true || correct === true ? 
-                    {readOnly: true} : {readOnly: false}
-                }
+                inputProps={{
+                    className: isValueCorrect(3) ? classes.color : classes.color2,
+                    readOnly: isValueCorrect(3),
+                    maxLength: 1
+                }}
             />
 
             <TextField
@@ -199,12 +194,11 @@ export default function PianoTab() {
                 onChange={handleChange5('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value5.input === correctAnswers[4] && again === true || correct === true ? 
-                    {className: classes.color} : { className: classes.color2 }
-                }
-                inputProps={value5.input === correctAnswers[4] && again === true || correct === true ? 
-                    {readOnly: true} : {readOnly: false}
-                }
+                inputProps={{
+                    className: isValueCorrect(4) ? classes.color : classes.color2,
+                    readOnly: isValueCorrect(4),
+                    maxLength: 1
+                }}
             />
 
             <TextField
@@ -216,12 +210,11 @@ export default function PianoTab() {
                 onChange={handleChange6('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value6.input === correctAnswers[5] && again === true || correct === true ? 
-                    {className: classes.color} : { className: classes.color2 }
-                }
-                inputProps={value6.input === correctAnswers[5] && again === true || correct === true ? 
-                    {readOnly: true} : {readOnly: false}
-                }
+                inputProps={{
+                    className: isValueCorrect(5) ? classes.color : classes.color2,
+                    readOnly: isValueCorrect(5),
+                    maxLength: 1
+                }}
             />
 
             <TextField
@@ -233,12 +226,11 @@ export default function PianoTab() {
                 onChange={handleChange7('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={value7.input === correctAnswers[6] && again === true || correct === true ? 
-                    {className: classes.color} : { className: classes.color2 }
-                }
-                inputProps={value7.input === correctAnswers[6] && again === true || correct === true ? 
-                    {readOnly: true} : {readOnly: false}
-                }
+                inputProps={{
+                    className: isValueCorrect(6) ? classes.color : classes.color2,
+                    readOnly: isValueCorrect(6),
+                    maxLength: 1
+                }}
             />
 
             {!correct && (

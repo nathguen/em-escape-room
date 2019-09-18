@@ -130,9 +130,10 @@ export default function UchtdorfTab() {
                 onChange={handleChange1('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={{
+                inputProps={{
                     className: isValueCorrect(0) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(0)
+                    readOnly: isValueCorrect(0),
+                    maxLength: 10
                 }}
             />
 
@@ -145,9 +146,10 @@ export default function UchtdorfTab() {
                 onChange={handleChange2('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={{
+                inputProps={{
                     className: isValueCorrect(1) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(1)
+                    readOnly: isValueCorrect(1),
+                    maxLength: 10
                 }}
             />
 
@@ -160,9 +162,10 @@ export default function UchtdorfTab() {
                 onChange={handleChange3('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={{
+                inputProps={{
                     className: isValueCorrect(2) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(2)
+                    readOnly: isValueCorrect(2),
+                    maxLength: 10
                 }}
             />
 
@@ -175,9 +178,10 @@ export default function UchtdorfTab() {
                 onChange={handleChange4('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={{
+                inputProps={{
                     className: isValueCorrect(3) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(3)
+                    readOnly: isValueCorrect(3),
+                    maxLength: 10
                 }}
             />
 
@@ -190,9 +194,10 @@ export default function UchtdorfTab() {
                 onChange={handleChange5('input')}
                 margin="normal"
                 variant="filled"
-                InputProps={{
+                inputProps={{
                     className: isValueCorrect(4) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(4)
+                    readOnly: isValueCorrect(4),
+                    maxLength: 10
                 }}
             />
 
