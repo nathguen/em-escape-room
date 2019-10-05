@@ -9,7 +9,7 @@ This webpage will inform you if you have the correct answers to help you escape!
 
 ## How to Play
 
-Load this link in your browser https://mebylund.github.io/em-escape-room/
+In command line type npm start -o to start a local repository
 
 ## Use
 
