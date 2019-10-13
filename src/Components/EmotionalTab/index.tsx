@@ -50,6 +50,23 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         color2: {
             color: 'black'
+        },
+        inputWrapper: {
+            width: 200,
+            marginRight: 10
+        },
+        inputsWrapper: {
+            marginBottom: 15
+        },
+        submitWrapper: {
+            marginBottom: 15
+        },
+        messageWrapper: {
+            marginBottom: 15
+        },
+        correctInput: {
+            background: 'green',
+            color: 'white'
         }
     }),
 );
@@ -60,202 +77,237 @@ const MenuProps = {
     PaperProps: {
         style: {
             maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
+            width: 200,
         },
     },
 };
+
+
+enum InputColor {
+    yellow = 'yellow',
+    red = 'red',
+    blue = 'blue',
+    green = 'green'
+}
 
 
 export default function EmotionalTab() {
 
     const classes = useStyles();
 
-    const [optionYellow, setOptionYellow] = React.useState<string[]>(['yellow']);
-    const [optionRed, setOptionRed] = React.useState<string[]>(['red']);
-    const [optionBlue, setOptionBlue] = React.useState<string[]>(['blue']);
-    const [optionGreen, setOptionGreen] = React.useState<string[]>(['green']);
+    const [optionYellow, setOptionYellow] = React.useState<string>('');
+    const [optionRed, setOptionRed] = React.useState<string>('');
+    const [optionBlue, setOptionBlue] = React.useState<string>('');
+    const [optionGreen, setOptionGreen] = React.useState<string>('');
 
-    const [correct, showCorrect] = React.useState(false)
-    const [again, tryAgain] = React.useState(false)
-    const [none, noneCorrect] = React.useState(false)
+    const [visibleOptionYellow, setVisibleOptionYellow] = React.useState<string>('');
+    const [visibleOptionRed, setVisibleOptionRed] = React.useState<string>('');
+    const [visibleOptionBlue, setVisibleOptionBlue] = React.useState<string>('');
+    const [visibleOptionGreen, setVisibleOptionGreen] = React.useState<string>('');
 
-    const correctAnswers = '7E4F';
-    var allInput = optionYellow.toString() + optionRed.toString() + optionBlue.toString() + optionGreen.toString();
+    const [attemptMade, setAttemptMade] = React.useState(false);
+
+    const correctAnswers = ['7', 'E', '4', 'F'];
 
 
+    const handleInputChange = (e: any, inputColor: InputColor) => {
+        const inputValue = e.target.value;
 
-    function handleChangeYellow(event: React.ChangeEvent<{ value: unknown }>) {
-        setOptionYellow(event.target.value as string[]);
-    }
-    function handleChangeRed(event: React.ChangeEvent<{ value: unknown }>) {
-        setOptionRed(event.target.value as string[]);
-    }
-    function handleChangeBlue(event: React.ChangeEvent<{ value: unknown }>) {
-        setOptionBlue(event.target.value as string[]);
-    }
-    function handleChangeGreen(event: React.ChangeEvent<{ value: unknown }>) {
-        setOptionGreen(event.target.value as string[]);
-    }
+        switch (inputColor) {
+            case InputColor.yellow:
+                setVisibleOptionYellow(inputValue);
+                break;
 
-    const checkAnswers = () => {
-        var splitAnswers = correctAnswers.split('');
-        var i = 0;
-        var countCorrect = 0;
-        splitAnswers.forEach(e => {
-            if (e === allInput[i]) {
-                countCorrect++;
+            case InputColor.red:
+                setVisibleOptionRed(inputValue);
+                break;
 
-            }
-            i++;
-            if (countCorrect > 0 && countCorrect < 4) {
-                tryAgain(true)
-                noneCorrect(false)
-            }
+            case InputColor.blue:
+                setVisibleOptionBlue(inputValue);
+                break;
 
-        })
-        if (correctAnswers === allInput) {
-            tryAgain(false)
-            noneCorrect(false)
-            showCorrect(true)
+            case InputColor.green:
+                setVisibleOptionGreen(inputValue);
+                break;
         }
-        if (countCorrect === 0) {
-            noneCorrect(true)
+    };
+
+    const setAllValues = () => {
+        setOptionYellow(visibleOptionYellow);
+        setOptionRed(visibleOptionRed);
+        setOptionBlue(visibleOptionBlue);
+        setOptionGreen(visibleOptionGreen);
+
+        if (!attemptMade) {
+            setAttemptMade(true);
         }
-    }
+    };
+
+    const isInputCorrect = (inputColor: InputColor) => {
+        let inputValue: string = '';
+        let answer: string = '';
+
+        switch (inputColor) {
+            case InputColor.yellow:
+                inputValue = optionYellow;
+                answer = correctAnswers[0];
+                break;
+
+            case InputColor.red:
+                inputValue = optionRed;
+                answer = correctAnswers[1];
+                break;
+
+            case InputColor.blue:
+                inputValue = optionBlue;
+                answer = correctAnswers[2];
+                break;
+
+            case InputColor.green:
+                inputValue = optionGreen;
+                answer = correctAnswers[3];
+                break;
+        }
+
+        return inputValue === answer;
+    };
+
+    const numberOfCorrectAnswers = correctAnswers.reduce((num, answer, index) => {
+        let inputValue: string = '';
+
+        switch (index) {
+            case 0:
+                inputValue = optionYellow;
+                break;
+
+            case 1:
+                inputValue = optionRed;
+                break;
+
+            case 2:
+                inputValue = optionBlue;
+                break;
+
+            case 3:
+                inputValue = optionGreen;
+                break;
+        }
+
+        if (inputValue === answer) {
+            num++;
+        }
+
+        return num;
+    }, 0);
 
 
     return (
         <div>
-            <FormControl>
-                <InputLabel htmlFor="select-multiple">Yellow</InputLabel>
-                <Select
-                    displayEmpty
-                    value={optionYellow}
-                    onChange={handleChangeYellow}
-                    renderValue={selected => {
-                        if ((selected as string).length === 0) {
-                            return <em>______</em>;
-                        }
-                        return (selected as string);
-                    }}
-                    MenuProps={MenuProps}
-                    // input={putInput}
-
-                    // SelectProps={
-                    //     optionYellow.input === correctAnswers[0] && again === true || correct === true ?
-                    //         { className: classes.color } : { className: classes.color2 }
-                    // }
-                    // inputProps={optionYellow.input === correctAnswers[0] && again === true || correct === true ?
-                    //     { readOnly: true } : { readOnly: false }
-                    // }
-                >
-                    <MenuItem disabled value="">
-                        <em>______</em>
-                    </MenuItem>
-                    {options.map(option => (
-                        <MenuItem key={option} value={option}>
-                            {option}
+            <div className={classes.inputsWrapper}>
+                <FormControl className={classes.inputWrapper}>
+                    <InputLabel htmlFor="select-yellow">Yellow</InputLabel>
+                    <Select
+                        value={visibleOptionYellow}
+                        onChange={e => handleInputChange(e, InputColor.yellow)}
+                        className={isInputCorrect(InputColor.yellow) ? classes.correctInput : ''}
+                        input={<Input name="select-yellow" id="select-yellow" />}
+                        MenuProps={MenuProps}
+                    >
+                        <MenuItem disabled value="">
+                            <em>______</em>
                         </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                        {options.map(option => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-            <FormControl>
-                <InputLabel htmlFor="select-multiple">Red</InputLabel>
-                <Select
-                    displayEmpty
-                    value={optionRed}
-                    onChange={handleChangeRed}
-                    input={<Input id="select-multiple-placeholder" />}
-                    renderValue={selected => {
-                        if ((selected as string).length === 0) {
-                            return <em>______</em>;
-                        }
-                        return (selected as string);
-                    }}
-                    MenuProps={MenuProps}
-                >
-                    <MenuItem disabled value="">
-                        <em>______</em>
-                    </MenuItem>
-                    {options.map(option => (
-                        <MenuItem key={option} value={option}>
-                            {option}
+                <FormControl className={classes.inputWrapper}>
+                    <InputLabel htmlFor="select-red">Red</InputLabel>
+                    <Select
+                        value={visibleOptionRed}
+                        onChange={e => handleInputChange(e, InputColor.red)}
+                        className={isInputCorrect(InputColor.red) ? classes.correctInput : ''}
+                        input={<Input name="select-red" id="select-red" />}
+                        MenuProps={MenuProps}
+                    >
+                        <MenuItem disabled value="">
+                            <em>______</em>
                         </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                        {options.map(option => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-            <FormControl>
-                <InputLabel htmlFor="select-multiple">Blue</InputLabel>
-                <Select
-                    displayEmpty
-                    value={optionBlue}
-                    onChange={handleChangeBlue}
-                    input={<Input id="select-multiple-placeholder" />}
-                    renderValue={selected => {
-                        if ((selected as string).length === 0) {
-                            return <em>______</em>;
-                        }
-                        return (selected as string);
-                    }}
-                    MenuProps={MenuProps}
-                >
-                    <MenuItem disabled value="">
-                        <em>______</em>
-                    </MenuItem>
-                    {options.map(option => (
-                        <MenuItem key={option} value={option}>
-                            {option}
+                <FormControl className={classes.inputWrapper}>
+                    <InputLabel htmlFor="select-blue">Blue</InputLabel>
+                    <Select
+                        value={visibleOptionBlue}
+                        onChange={e => handleInputChange(e, InputColor.blue)}
+                        className={isInputCorrect(InputColor.blue) ? classes.correctInput : ''}
+                        input={<Input name="select-blue" id="select-blue" />}
+                        MenuProps={MenuProps}
+                    >
+                        <MenuItem disabled value="">
+                            <em>______</em>
                         </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                        {options.map(option => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-            <FormControl>
-                <InputLabel htmlFor="select-multiple">Green</InputLabel>
-                <Select
-                    displayEmpty
-                    value={optionGreen}
-                    onChange={handleChangeGreen}
-                    input={<Input id="select-multiple-placeholder" />}
-                    renderValue={selected => {
-                        if ((selected as string).length === 0) {
-                            return <em>______</em>;
-                        }
-                        return (selected as string);
-                    }}
-                    MenuProps={MenuProps}
-                >
-                    <MenuItem disabled value="">
-                        <em>______</em>
-                    </MenuItem>
-                    {options.map(option => (
-                        <MenuItem key={option} value={option}>
-                            {option}
+                <FormControl className={classes.inputWrapper}>
+                    <InputLabel htmlFor="select-green">Green</InputLabel>
+                    <Select
+                        value={visibleOptionGreen}
+                        onChange={e => handleInputChange(e, InputColor.green)}
+                        className={isInputCorrect(InputColor.green) ? classes.correctInput : ''}
+                        input={<Input name="select-green" id="select-green" />}
+                        MenuProps={MenuProps}
+                    >
+                        <MenuItem disabled value="">
+                            <em>______</em>
                         </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                        {options.map(option => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </div>
+            <div className={classes.submitWrapper}>
+                {numberOfCorrectAnswers < correctAnswers.length && (
+                    <Button onClick={setAllValues} variant="contained" size='large' color="secondary" >
+                        SUBMIT
+                     </Button>
+                )}
+            </div>
 
-            {!correct && (
-            <Button onClick={checkAnswers} variant="contained" size='large' color="secondary" >
-                SUBMIT
-            </Button>
-            )}
+            {attemptMade && (
+                <div className={classes.messageWrapper}>
+                    {numberOfCorrectAnswers > 0 && numberOfCorrectAnswers < correctAnswers.length && (
+                        <p>Some of your answers were right! Just gotta fix a few.</p>
+                    )}
 
-            {again && (
-                <p>Some of your answers were right! Just gotta fix a few.</p>
-            )}
+                    {numberOfCorrectAnswers === 0 && (
+                        <p>Sorry, none of those are right. Please try again</p>
+                    )}
 
-            {none && (
-                <p>Sorry, none of those are right. Please try again</p>
-            )}
-
-            {correct && (
-                <div>
-                    <h1>CORRECT!</h1>
-                    <p>You may now open the _____________ to receive one of the words for the final clue.</p>
+                    {numberOfCorrectAnswers === correctAnswers.length && (
+                        <div>
+                            <h1>CORRECT!</h1>
+                            <p>You may now open the <strong>blue box with white around it</strong> to receive one of the words for the final clue.</p>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

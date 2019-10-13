@@ -8,23 +8,31 @@ interface State {
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {
-            display: 'flex',
-            flexWrap: 'wrap',
-        },
         textField: {
             marginLeft: theme.spacing(1),
             marginRight: theme.spacing(1),
             width: 200,
         },
         color: {
-            color: 'green',
+            color: 'white',
+            background: 'green'
         },
         color2: {
             color: 'black'
         },
         color3: {
             backgroundColor: 'green'
+        },
+        inputsWrapper: {
+            display: 'flex',
+            flexWrap: 'wrap',
+            marginBottom: 15
+        },
+        submitWrapper: {
+            marginBottom: 15
+        },
+        messageWrapper: {
+            marginBottom: 15
         }
     }),
 );
@@ -32,15 +40,19 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function UchtdorfTab() {
     const classes = useStyles();
 
-    const [value1, setValue1] = React.useState<State>({ input: '' })
-    const [value2, setValue2] = React.useState<State>({ input: '' })
-    const [value3, setValue3] = React.useState<State>({ input: '' })
-    const [value4, setValue4] = React.useState<State>({ input: '' })
-    const [value5, setValue5] = React.useState<State>({ input: '' })
+    let input1: HTMLInputElement | null = null;
+    let input2: HTMLInputElement | null = null;
+    let input3: HTMLInputElement | null = null;
+    let input4: HTMLInputElement | null = null;
+    let input5: HTMLInputElement | null = null;
 
-    const [correct, showCorrect] = React.useState(false)
-    const [again, tryAgain] = React.useState(false)
-    const [none, noneCorrect] = React.useState(false)
+    const [value1, setValue1] = React.useState('');
+    const [value2, setValue2] = React.useState('');
+    const [value3, setValue3] = React.useState('');
+    const [value4, setValue4] = React.useState('');
+    const [value5, setValue5] = React.useState('');
+
+    const [attemptMade, setAttemptMade] = React.useState(false);
 
     const correctAnswers = [
         'TREE',
@@ -49,176 +61,199 @@ export default function UchtdorfTab() {
         'SNAKE',
         'ROPE'
     ];
-    var allInput = [value1.input, value2.input, value3.input, value4.input, value5.input];
 
 
-    const handleChange1 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue1({ ...value1, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange2 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue2({ ...value2, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange3 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue3({ ...value3, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange4 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue4({ ...value4, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange5 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue5({ ...value5, [input]: event.target.value.toUpperCase() });
-    };
+    const numberOfCorrectAnswers = correctAnswers.reduce((num, answer, index) => {
+        let inputValue: string = '';
 
-    const checkAnswers = () => {
-        console.log(allInput)
-        var i = 0;
-        var countCorrect = 0;
-        correctAnswers.forEach(e => {
-            if (e === allInput[i]) {
-                countCorrect++;
+        switch (index) {
+            case 0:
+                inputValue = value1;
+                break;
 
-            }
-            i++;
-            if (countCorrect > 0 && countCorrect < 5) {
-                tryAgain(true)
-                noneCorrect(false)
-            }
-        })
-        if (countCorrect === 5) {
-            tryAgain(false)
-            noneCorrect(false)
-            showCorrect(true)
+            case 1:
+                inputValue = value2;
+                break;
+
+            case 2:
+                inputValue = value3;
+                break;
+
+            case 3:
+                inputValue = value4;
+                break;
+
+            case 4:
+                inputValue = value5;
+                break;
         }
 
-        if (countCorrect === 0) {
-            noneCorrect(true)
+        if (inputValue.toLowerCase() === answer.toLowerCase()) {
+            num++;
         }
-    }
 
-    // var i = 0;
-    // const inputProps = {
-    //     splitAnswers.forEach(e => {
-    //         if(value1.input === correctAnswers[0] && again === true || correct === true) {
-    //             {className: classes.color}
-    //         }
-    //         i++;
-    //     }),
-    //     readOnly: true
-    //   };
+        return num;
+    }, 0);
 
+    const setAllValues = () => {
+        if (input1) {
+            setValue1(input1.value);
+        }
+        if (input2) {
+            setValue2(input2.value);
+        }
+        if (input3) {
+            setValue3(input3.value);
+        }
+        if (input4) {
+            setValue4(input4.value);
+        }
+        if (input5) {
+            setValue5(input5.value);
+        }
 
-    const isValueCorrect = (num: number) => {
-        var i = 0;
-        const correctArray = correctAnswers.map(e => {
-            if ((allInput[i] === correctAnswers[i] && again === true) || correct === true) {
-                i++;
-                return true;
-            }
-            i++;
-        })
-        return correctArray[num];
-    }
+        if (!attemptMade) {
+            setAttemptMade(true);
+        }
+    };
 
+    const isInputCorrect = (inputNum: number) => {
+        let inputValue: string = '';
+        let answer: string = '';
+
+        switch (inputNum) {
+            case 1:
+                inputValue = value1;
+                answer = correctAnswers[0];
+                break;
+
+            case 2:
+                inputValue = value2;
+                answer = correctAnswers[1];
+                break;
+
+            case 3:
+                inputValue = value3;
+                answer = correctAnswers[2];
+                break;
+
+            case 4:
+                inputValue = value4;
+                answer = correctAnswers[3];
+                break;
+
+            case 5:
+                inputValue = value5;
+                answer = correctAnswers[4];
+                break;
+        }
+
+        return inputValue.toLowerCase() === answer.toLowerCase();
+    };
 
     return (
-        <div className={classes.container} >
-            <TextField
-                id="#1"
-                label="#1"
-                placeholder="Type here"
-                className={classes.textField}
-                value={value1.input}
-                onChange={handleChange1('input')}
-                margin="normal"
-                variant="filled"
-                inputProps={{
-                    className: isValueCorrect(0) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(0),
-                    maxLength: 10
-                }}
-            />
+        <div>
+            <div className={classes.inputsWrapper} >
+                <TextField
+                    id="#1"
+                    label="#1"
+                    placeholder="Type here"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="filled"
+                    inputRef={el => input1 = el}
+                    inputProps={{
+                        className: isInputCorrect(1) ? classes.color : classes.color2,
+                        readOnly: isInputCorrect(1),
+                        maxLength: 10
+                    }}
+                />
 
-            <TextField
-                id="filled-name"
-                label="#2"
-                placeholder="Type here"
-                className={classes.textField}
-                value={value2.input}
-                onChange={handleChange2('input')}
-                margin="normal"
-                variant="filled"
-                inputProps={{
-                    className: isValueCorrect(1) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(1),
-                    maxLength: 10
-                }}
-            />
+                <TextField
+                    id="filled-name"
+                    label="#2"
+                    placeholder="Type here"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="filled"
+                    inputRef={el => input2 = el}
+                    inputProps={{
+                        className: isInputCorrect(2) ? classes.color : classes.color2,
+                        readOnly: isInputCorrect(2),
+                        maxLength: 10
+                    }}
+                />
 
-            <TextField
-                id="filled-name"
-                label="#3"
-                placeholder="Type here"
-                className={classes.textField}
-                value={value3.input}
-                onChange={handleChange3('input')}
-                margin="normal"
-                variant="filled"
-                inputProps={{
-                    className: isValueCorrect(2) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(2),
-                    maxLength: 10
-                }}
-            />
+                <TextField
+                    id="filled-name"
+                    label="#3"
+                    placeholder="Type here"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="filled"
+                    inputRef={el => input3 = el}
+                    inputProps={{
+                        className: isInputCorrect(3) ? classes.color : classes.color2,
+                        readOnly: isInputCorrect(3),
+                        maxLength: 10
+                    }}
+                />
 
-            <TextField
-                id="filled-name"
-                label="#4"
-                placeholder="Type here"
-                className={classes.textField}
-                value={value4.input}
-                onChange={handleChange4('input')}
-                margin="normal"
-                variant="filled"
-                inputProps={{
-                    className: isValueCorrect(3) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(3),
-                    maxLength: 10
-                }}
-            />
+                <TextField
+                    id="filled-name"
+                    label="#4"
+                    placeholder="Type here"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="filled"
+                    inputRef={el => input4 = el}
+                    inputProps={{
+                        className: isInputCorrect(4) ? classes.color : classes.color2,
+                        readOnly: isInputCorrect(4),
+                        maxLength: 10
+                    }}
+                />
 
-            <TextField
-                id="filled-name"
-                label="#5"
-                placeholder="Type here"
-                className={classes.textField}
-                value={value5.input}
-                onChange={handleChange5('input')}
-                margin="normal"
-                variant="filled"
-                inputProps={{
-                    className: isValueCorrect(4) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(4),
-                    maxLength: 10
-                }}
-            />
+                <TextField
+                    id="filled-name"
+                    label="#5"
+                    placeholder="Type here"
+                    className={classes.textField}
+                    margin="normal"
+                    variant="filled"
+                    inputRef={el => input5 = el}
+                    inputProps={{
+                        className: isInputCorrect(5) ? classes.color : classes.color2,
+                        readOnly: isInputCorrect(5),
+                        maxLength: 10
+                    }}
+                />
+            </div>
 
-            {!correct && (
-                <Button onClick={checkAnswers} variant="contained" size='large' color="secondary" >
-                    SUBMIT
-            </Button>
-            )}
+            <div className={classes.submitWrapper}>
+                {numberOfCorrectAnswers < correctAnswers.length && (
+                    <Button onClick={setAllValues} variant="contained" size='large' color="secondary" >
+                        SUBMIT
+                </Button>
+                )}
+            </div>
 
-            {again && (
-                <p>Some of your answers were right! Just gotta fix a few.</p>
-            )}
+            {attemptMade && (
+                <div className={classes.messageWrapper}>
+                    {numberOfCorrectAnswers > 0 && numberOfCorrectAnswers < correctAnswers.length && (
+                        <p>Some of your answers were right! Just gotta fix a few.</p>
+                    )}
 
-            {none && (
-                <p>Sorry, none of those are right. Please try again</p>
-            )}
+                    {numberOfCorrectAnswers === 0 && (
+                        <p>Sorry, none of those are right. Please try again</p>
+                    )}
 
-            {correct && (
-                <div>
-                    <h1>CORRECT!</h1>
-                    <p>You may now open the _____________ to receive one of the words for the final clue.</p>
+                    {numberOfCorrectAnswers === correctAnswers.length && (
+                        <div>
+                            <h1>CORRECT!</h1>
+                            <p>You may now open the <strong>Apple Spice Box</strong> to receive one of the words for the final clue.</p>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

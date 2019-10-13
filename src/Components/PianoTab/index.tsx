@@ -20,14 +20,16 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: theme.spacing(1),
             width: 200,
         },
+        textFieldText: {
+            textTransform: 'uppercase'
+        },
         color: {
-            color: 'green',
+            color: 'white',
+            background: 'green',
+            fontWeight: 'bold'
         },
         color2: {
             color: 'black'
-        },
-        color3: {
-            backgroundColor: 'green'
         }
     }),
 );
@@ -44,80 +46,134 @@ export default function PianoTab() {
 
     const classes = useStyles();
 
-    const [value1, setValue1] = React.useState<State>({ input: '' })
-    const [value2, setValue2] = React.useState<State>({ input: '' })
-    const [value3, setValue3] = React.useState<State>({ input: '' })
-    const [value4, setValue4] = React.useState<State>({ input: '' })
-    const [value5, setValue5] = React.useState<State>({ input: '' })
-    const [value6, setValue6] = React.useState<State>({ input: '' })
-    const [value7, setValue7] = React.useState<State>({ input: '' })
+    const [value1, setValue1] = React.useState<string>('')
+    const [value2, setValue2] = React.useState<string>('')
+    const [value3, setValue3] = React.useState<string>('')
+    const [value4, setValue4] = React.useState<string>('')
+    const [value5, setValue5] = React.useState<string>('')
+    const [value6, setValue6] = React.useState<string>('')
+    const [value7, setValue7] = React.useState<string>('')
 
-    const [correct, showCorrect] = React.useState(false)
-    const [again, tryAgain] = React.useState(false)
-    const [none, noneCorrect] = React.useState(false)
+    let input1: HTMLInputElement | null = null;
+    let input2: HTMLInputElement | null = null;
+    let input3: HTMLInputElement | null = null;
+    let input4: HTMLInputElement | null = null;
+    let input5: HTMLInputElement | null = null;
+    let input6: HTMLInputElement | null = null;
+    let input7: HTMLInputElement | null = null;
 
-    const correctAnswers = 'GAEDFBC';
-    var allInput = value1.input + value2.input + value3.input + value4.input + value5.input + value6.input + value7.input;
+    const [attemptMade, setAttemptMade] = React.useState(false);
 
+    const correctAnswers: string[] = ['G', 'A', 'E', 'D', 'F', 'B', 'C'];
 
-    const handleChange1 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue1({ ...value1, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange2 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue2({ ...value2, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange3 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue3({ ...value3, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange4 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue4({ ...value4, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange5 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue5({ ...value5, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange6 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue6({ ...value6, [input]: event.target.value.toUpperCase() });
-    };
-    const handleChange7 = (input: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue7({ ...value7, [input]: event.target.value.toUpperCase() });
-    };
-    var splitAnswers = correctAnswers.split('');
+    const isValueCorrect = (answerNum: number): boolean => {
+        let input: string = '';
+        let answer: string = '';
 
-    const checkAnswers = () => {
-        var i = 0;
-        var countCorrect = 0;
-        splitAnswers.forEach(e => {
-            if (e === allInput[i]) {
-                countCorrect++;
+        switch (answerNum) {
+            case 1:
+                input = value1;
+                answer = correctAnswers[0];
+                break;
 
-            }
-            i++;
-            if (countCorrect > 0 && countCorrect < 7) {
-                tryAgain(true)
-                noneCorrect(false)
-            }
+            case 2:
+                input = value2;
+                answer = correctAnswers[1];
+                break;
 
-        })
-        if (correctAnswers === allInput) {
-            tryAgain(false)
-            noneCorrect(false)
-            showCorrect(true)
+            case 3:
+                input = value3;
+                answer = correctAnswers[2];
+                break;
+
+            case 4:
+                input = value4;
+                answer = correctAnswers[3];
+                break;
+
+            case 5:
+                input = value5;
+                answer = correctAnswers[4];
+                break;
+
+            case 6:
+                input = value6;
+                answer = correctAnswers[5];
+                break;
+
+            default:
+                input = value7;
+                answer = correctAnswers[6];
         }
-        if (countCorrect === 0) {
-            noneCorrect(true)
+
+        return input.toLowerCase() === answer.toLowerCase();
+    };
+
+    const updateAllAnswers = () => {
+        if (input1) {
+            setValue1(input1.value.toUpperCase());
         }
-    }
-    const isValueCorrect = (num: number) => {
-        var i = 0;
-        const correctArray = splitAnswers.map(e => {
-            if ((allInput[i] === correctAnswers[i] && again === true) || correct === true) {
-                i++;
-                return true;
-            }
-            i++;
-        })
-        return correctArray[num];
-    }
+        if (input2) {
+            setValue2(input2.value.toUpperCase());
+        }
+        if (input3) {
+            setValue3(input3.value.toUpperCase());
+        }
+        if (input4) {
+            setValue4(input4.value.toUpperCase());
+        }
+        if (input5) {
+            setValue5(input5.value.toUpperCase());
+        }
+        if (input6) {
+            setValue6(input6.value.toUpperCase());
+        }
+        if (input7) {
+            setValue7(input7.value.toUpperCase());
+        }
+
+        if (!attemptMade) {
+            setAttemptMade(true);
+        }
+    };
+
+    const numberOfCorrectAnswers = correctAnswers.reduce((num, correctAnswer, index) => {
+        let inputValue: string = '';
+        switch (index) {
+            case 0:
+                inputValue = value1;
+                break;
+
+            case 1:
+                inputValue = value2;
+                break;
+
+            case 2:
+                inputValue = value3;
+                break;
+
+            case 3:
+                inputValue = value4;
+                break;
+
+            case 4:
+                inputValue = value5;
+                break;
+
+            case 5:
+                inputValue = value6;
+                break;
+
+            case 6:
+                inputValue = value7;
+                break;
+        }
+
+        if (inputValue.toLowerCase() === correctAnswer.toLowerCase()) {
+            num++;
+        }
+        return num;
+    }, 0);
 
     return (
         <div className={classes.container} >
@@ -126,14 +182,12 @@ export default function PianoTab() {
                 label="#1"
                 placeholder="Type here"
                 className={classes.textField}
-                value={value1.input}
-                onChange={handleChange1('input')}
+                inputRef={el => input1 = el}
                 margin="normal"
                 variant="filled"
                 inputProps={{
-                    className: isValueCorrect(0) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(0),
-                    maxLength: 1
+                    className: `${isValueCorrect(1) ? classes.color : classes.color2} ${classes.textFieldText}`,
+                    disabled: isValueCorrect(1),
                 }}
             />
 
@@ -142,14 +196,12 @@ export default function PianoTab() {
                 label="#2"
                 placeholder="Type here"
                 className={classes.textField}
-                value={value2.input}
-                onChange={handleChange2('input')}
+                inputRef={el => input2 = el}
                 margin="normal"
                 variant="filled"
                 inputProps={{
-                    className: isValueCorrect(1) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(1),
-                    maxLength: 1
+                    className: `${isValueCorrect(2) ? classes.color : classes.color2} ${classes.textFieldText}`,
+                    disabled: isValueCorrect(2),
                 }}
             />
 
@@ -158,14 +210,12 @@ export default function PianoTab() {
                 label="#3"
                 placeholder="Type here"
                 className={classes.textField}
-                value={value3.input}
-                onChange={handleChange3('input')}
+                inputRef={el => input3 = el}
                 margin="normal"
                 variant="filled"
                 inputProps={{
-                    className: isValueCorrect(2) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(2),
-                    maxLength: 1
+                    className: `${isValueCorrect(3) ? classes.color : classes.color2} ${classes.textFieldText}`,
+                    disabled: isValueCorrect(3),
                 }}
             />
 
@@ -174,14 +224,12 @@ export default function PianoTab() {
                 label="#4"
                 placeholder="Type here"
                 className={classes.textField}
-                value={value4.input}
-                onChange={handleChange4('input')}
+                inputRef={el => input4 = el}
                 margin="normal"
                 variant="filled"
                 inputProps={{
-                    className: isValueCorrect(3) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(3),
-                    maxLength: 1
+                    className: `${isValueCorrect(4) ? classes.color : classes.color2} ${classes.textFieldText}`,
+                    disabled: isValueCorrect(4),
                 }}
             />
 
@@ -190,14 +238,12 @@ export default function PianoTab() {
                 label="#5"
                 placeholder="Type here"
                 className={classes.textField}
-                value={value5.input}
-                onChange={handleChange5('input')}
+                inputRef={el => input5 = el}
                 margin="normal"
                 variant="filled"
                 inputProps={{
-                    className: isValueCorrect(4) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(4),
-                    maxLength: 1
+                    className: `${isValueCorrect(5) ? classes.color : classes.color2} ${classes.textFieldText}`,
+                    disabled: isValueCorrect(5),
                 }}
             />
 
@@ -206,14 +252,12 @@ export default function PianoTab() {
                 label="#6"
                 placeholder="Type here"
                 className={classes.textField}
-                value={value6.input}
-                onChange={handleChange6('input')}
+                inputRef={el => input6 = el}
                 margin="normal"
                 variant="filled"
                 inputProps={{
-                    className: isValueCorrect(5) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(5),
-                    maxLength: 1
+                    className: `${isValueCorrect(6) ? classes.color : classes.color2} ${classes.textFieldText}`,
+                    disabled: isValueCorrect(6),
                 }}
             />
 
@@ -222,35 +266,37 @@ export default function PianoTab() {
                 label="#7"
                 placeholder="Type here"
                 className={classes.textField}
-                value={value7.input}
-                onChange={handleChange7('input')}
+                inputRef={el => input7 = el}
                 margin="normal"
                 variant="filled"
                 inputProps={{
-                    className: isValueCorrect(6) ? classes.color : classes.color2,
-                    readOnly: isValueCorrect(6),
-                    maxLength: 1
+                    className: `${isValueCorrect(7) ? classes.color : classes.color2} ${classes.textFieldText}`,
+                    disabled: isValueCorrect(7),
                 }}
             />
 
-            {!correct && (
-                <Button onClick={checkAnswers} variant="contained" size='large' color="secondary" >
+            {numberOfCorrectAnswers < correctAnswers.length && (
+                <Button onClick={updateAllAnswers} variant="contained" size='large' color="secondary" >
                     SUBMIT
-            </Button>
+                </Button>
             )}
 
-            {again && (
-                <p>Some of your answers were right! Just gotta fix a few.</p>
-            )}
-
-            {none && (
-                <p>Sorry, none of those are right. Please try again</p>
-            )}
-
-            {correct && (
+            {attemptMade && (
                 <div>
-                    <h1>CORRECT!</h1>
-                    <p>You may now open the _____________ to receive one of the words for the final clue.</p>
+                    {numberOfCorrectAnswers > 0 && numberOfCorrectAnswers < correctAnswers.length && (
+                        <p>Some of your answers were right! Just gotta fix a few.</p>
+                    )}
+
+                    {numberOfCorrectAnswers === 0 && (
+                        <p>Sorry, none of those are right. Please try again</p>
+                    )}
+
+                    {numberOfCorrectAnswers === correctAnswers.length && (
+                        <div>
+                            <h1>CORRECT!</h1>
+                            <p>You may now open the <strong>Blowfish Shoe Box</strong> to receive one of the words for the final clue.</p>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
